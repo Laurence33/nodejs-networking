@@ -6,6 +6,9 @@ const socket = net.createConnection(
     port: 3000,
   },
   () => {
-    socket.write('Hello server! This is from the sender.');
+    const buff = Buffer.alloc(2);
+    buff[0] = 12;
+    buff[1] = 34;
+    socket.write("Hello server!");
   }
 );
