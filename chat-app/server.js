@@ -6,7 +6,6 @@ const clients = [];
 server.on('connection', (socket) => {
   console.log('New connection to the server');
   clients.push(socket);
-  socket.write('Hello client!');
   socket.on('error', (err) => console.log(`Client error`, err.message));
   socket.on('data', (data) => {
     console.log(`Client sent: ${data}`);
