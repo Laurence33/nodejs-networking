@@ -18,6 +18,7 @@ const moveCursor = async (dx, dy) => {
   });
 };
 
+let id;
 const socket = net.createConnection(
   {
     host: '127.0.0.1',
@@ -33,13 +34,22 @@ const socket = net.createConnection(
       await clearLine(0);
       socket.write(message);
     };
-    await ask();
+    ask();
 
     socket.on('data', async function (data) {
       console.log();
       await moveCursor(0, -1);
       await clearLine(0);
-      console.log(data.toString('utf-8'));
+
+      const msg = data.toString('utf-8');
+      if (msg.startsWith('id')) {
+        // When we get our id
+        id = msg.substring(3);
+        console.log(`Your id is ${id}.\n`);
+      } else {
+        // When we get message from other client
+        console.log(data.toString('utf-8'));
+      }
       ask();
     });
   }
