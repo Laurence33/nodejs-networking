@@ -23,7 +23,7 @@ server.on('connection', (socket) => {
 
   socket.on('data', (data) => {
     // console.log(`User ${s.id}: ${data}`);
-    clients.forEach((s) => s.socket.write(`User${clientId}: ${data}`));
+    clients.forEach((s) => s.socket.write(`> User${clientId}: ${data}`));
   });
 });
 
