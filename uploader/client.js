@@ -12,8 +12,12 @@ const socket = net.createConnection(
     const fileStream = fileHandle.createReadStream();
     fileStream.on('data', (data) => {
       // Writing file to socket connection to the server
-      socket.write(data);
+      if (!socket.write(data)) {
+        fileStream.pause();
+      }
     });
+
+    socket.on('drain', () => fileStream.resume());
 
     fileStream.on('end', () => {
       console.log('File was successfully uploaded!');

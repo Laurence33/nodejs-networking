@@ -8,9 +8,15 @@ server.on('connection', async (socket) => {
 
   const fileHandle = await fs.open(`storage/test.txt`, 'w');
   const fileStream = fileHandle.createWriteStream();
+
+  fileStream.on('drain', () => socket.resume()); // Continue when back-pressure is exhausted
+
   socket.on('data', (data) => {
     // Writing to destination file
-    fileStream.write(data);
+    if (!fileStream.write(data)) {
+      // Pause to release back-pressure
+      socket.pause();
+    }
   });
 
   socket.on('end', () => {
