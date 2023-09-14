@@ -9,17 +9,17 @@ const socket = net.createConnection(
   async () => {
     const filePath = './text.txt';
     const fileHandle = await fs.open(filePath, 'r');
-    const fileStream = fileHandle.createReadStream();
-    fileStream.on('data', (data) => {
+    const fileReadStream = fileHandle.createReadStream();
+    fileReadStream.on('data', (data) => {
       // Writing file to socket connection to the server
       if (!socket.write(data)) {
-        fileStream.pause();
+        fileReadStream.pause();
       }
     });
 
-    socket.on('drain', () => fileStream.resume());
+    socket.on('drain', () => fileReadStream.resume());
 
-    fileStream.on('end', () => {
+    fileReadStream.on('end', () => {
       console.log('File was successfully uploaded!');
       socket.end();
     });
