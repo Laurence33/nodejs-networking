@@ -10,6 +10,7 @@ server.on('connection', async (socket) => {
   const fileWriteStream = fileHandle.createWriteStream();
 
   fileWriteStream.on('drain', () => socket.resume()); // Continue when back-pressure is exhausted
+  // You can only drain in WriteStream
 
   socket.on('data', (data) => {
     // Writing to destination file

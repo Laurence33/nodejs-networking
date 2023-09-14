@@ -18,6 +18,7 @@ const socket = net.createConnection(
     });
 
     socket.on('drain', () => fileReadStream.resume());
+    // You can only drain in WriteStream, in this case the socket is the WriteStream since we are uploading a file
 
     fileReadStream.on('end', () => {
       console.log('File was successfully uploaded!');
