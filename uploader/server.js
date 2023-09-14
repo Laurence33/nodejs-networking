@@ -22,6 +22,7 @@ server.on('connection', async (socket) => {
   socket.on('end', () => {
     console.log('Connection ended.');
     fileHandle.close();
+    socket.end();
   });
 });
 
