@@ -1,5 +1,6 @@
 const net = require('net');
 const fs = require('node:fs/promises');
+const path = require('path');
 
 const socket = net.createConnection(
   {
@@ -7,7 +8,9 @@ const socket = net.createConnection(
     port: 5050,
   },
   async () => {
-    const filePath = './text.txt';
+    console.log(process.argv);
+    const filePath = process.argv[2];
+    const filename = path.basename(filePath);
     const fileHandle = await fs.open(filePath, 'r');
     const fileReadStream = fileHandle.createReadStream();
     fileReadStream.on('data', (data) => {
