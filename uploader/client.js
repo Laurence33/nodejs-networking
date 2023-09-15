@@ -13,6 +13,7 @@ const socket = net.createConnection(
     const filename = path.basename(filePath);
     const fileHandle = await fs.open(filePath, 'r');
     const fileReadStream = fileHandle.createReadStream();
+    socket.write(`filename: ${filename}-------`); // send the filename, our own protocol
     fileReadStream.on('data', (data) => {
       // Writing file to socket connection to the server
       if (!socket.write(data)) {
